@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: web
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: kv
+  serviceName: "kv"
+  replicas: 8 # set number of replicas for the kv store here
+  template:
+    metadata:
+      labels:
+        app: kv
+    spec:
+      serviceAccountName: kv
+      containers:
+        - name: kv
+          image: tjrasche/kv_celonis-99764c2e09311287e53c259c7ecd6632
+          ports:
+            - containerPort: 8080
+              name: web
+          env:
+            - name: POD_IDENTITY
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_LABEL
+              value: "app=kv"
+
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: REPLICAS
+              value: "8"  # set number of replicas for the kv store here
+

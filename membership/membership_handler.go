@@ -1,6 +1,6 @@
 package membership
 
 type Handler interface {
-	Members()
-	CalculateReplication(key string, value string) []string
+	Members() ([]Node, error)
+	CalculateReplication(key string, value string) []Node
 }

@@ -7,6 +7,6 @@ import (
 )
 
 func main() {
-	app := newApp(gin.Default(), &membership.K8sHandler{}, store.NewStore())
+	app := newApp(gin.Default(), membership.NewK8sHandler(), store.NewStore())
 	app.Run()
 }
