@@ -18,3 +18,5 @@ and apply the kubernetes manifests provided in this repository:
 ```bash
 k apply -f ./k8s/
 ```
+
+curl --location --request POST 'http://web01.kv:8080/values/123' --header 'Content-Type: text/plain' --data-raw '456'

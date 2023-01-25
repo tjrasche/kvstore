@@ -42,14 +42,14 @@ func (k K8sHandler) Members() ([]Node, error) {
 
 	// create nodes for every pod found belonging to the stateful set
 	for _, pod := range podresult.Items {
-		nodes = append(nodes, *NewNode(pod.Name, "http://"+pod.Status.PodIP))
+		nodes = append(nodes, *NewNode(pod.Name, "http://"+pod.Status.PodIP+":8080"))
 	}
 	return nodes, nil
 
 }
 
 // CalculateReplication returns 3 id s of members where
-func (k K8sHandler) CalculateReplication(key string, value string) []Node {
+func (k K8sHandler) CalculateReplication(key string) []Node {
 	keyHash := hash(key)
 	// using modulo to determine which node to write to should be ok when keys are aprox random
 	nodeIndex := keyHash % uint32(k.replicas)
@@ -86,7 +86,7 @@ func (k K8sHandler) CalculateReplication(key string, value string) []Node {
 
 }
 
-// little helper function to get deterministig  integer hashes of strings
+// little helper function to get deterministic  integer hashes of strings
 func hash(s string) uint32 {
 	h := fnv.New32a()
 	h.Write([]byte(s))

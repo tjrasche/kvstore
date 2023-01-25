@@ -14,9 +14,11 @@ spec:
       labels:
         app: kv
     spec:
+
       serviceAccountName: kv
       containers:
         - name: kv
+          imagePullPolicy: Always
           image: tjrasche/kv_celonis-99764c2e09311287e53c259c7ecd6632
           ports:
             - containerPort: 8080
